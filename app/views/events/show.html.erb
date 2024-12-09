@@ -1,0 +1,13 @@
+<h1><%= @event.title %></h1>
+<p><%= @event.description %></p>
+<p><strong>Date:</strong> <%= @event.date %> at <%= @event.time %></p>
+<p><strong>Location:</strong> <%= @event.location %></p>
+<p><strong>Organizer:</strong> <%= @event.organizer %></p>
+
+<h3>Attendees</h3>
+<% @attendees.each do |attendee| %>
+  <%= render attendee %>
+<% end %>
+
+<%= link_to 'New Attendee', new_event_attendee_path(@event), class: 'btn btn-primary' %>
+<%= link_to 'Back to Events', events_path, class: 'btn btn-secondary' %>

@@ -1,0 +1,10 @@
+def update
+  @event = Event.find(params[:event_id])
+  @attendee = @event.attendees.find(params[:id])
+
+  if @attendee.update(attendee_params)
+    redirect_to event_path(@event), notice: "Attendee was successfully updated."
+  else
+    render :edit, status: :unprocessable_entity
+  end
+end

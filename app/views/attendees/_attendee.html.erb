@@ -1,0 +1,5 @@
+<div class="attendee">
+  <p><strong><%= attendee.name %></strong> (<%= attendee.email %>)</p>
+  <%= link_to 'Edit', edit_event_attendee_path(@event, attendee), class: 'btn btn-warning' %>
+  <%= link_to 'Delete', event_attendee_path(@event, attendee), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+</div>

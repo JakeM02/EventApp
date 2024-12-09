@@ -1,0 +1,7 @@
+def destroy
+  @event = Event.find(params[:event_id])
+  @attendee = @event.attendees.find(params[:id])
+  @attendee.destroy
+
+  redirect_to event_path(@event), notice: "Attendee was successfully deleted."
+end
