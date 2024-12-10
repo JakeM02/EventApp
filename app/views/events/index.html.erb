@@ -1,27 +1,23 @@
-<h1>Events</h1>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Location</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @events.each do |event| %>
-      <tr>
-        <td><%= link_to event.title, event_path(event) %></td>
-        <td><%= event.description %></td>
-        <td><%= event.location %></td>
-        <td>
-          <%= link_to 'Edit', edit_event_path(event), class: 'btn btn-warning' %>
-          <%= link_to 'Delete', event_path(event), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="d-flex justify-content-center align-items-center">
+  <div class="card shadow-lg" style="width: 80%; max-width: 1000px;">
+    <div class="card-body">
+      <h1 class="card-title text-center mb-4">Upcoming Events</h1>
 
-<%= link_to 'New Event', new_event_path, class: 'btn btn-primary' %>
+      <div class="list-group">
+        <% @events.each do |event| %>
+          <a href="<%= event_path(event) %>" class="list-group-item list-group-item-action">
+            <h5 class="mb-1"><%= event.title %></h5>
+            <p class="mb-1 text-muted"><%= event.description.truncate(100) %></p>
+            <small><%= event.date %> | <%= event.location %></small>
+          </a>
+        <% end %>
+      </div>
+
+      <div class="mt-4 text-center">
+        <%= link_to 'Add New Event', new_event_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+</div>
+

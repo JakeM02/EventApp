@@ -1,0 +1,91 @@
+// app/assets/stylesheets/application.scss
+
+// Import Bootstrap first
+@import "bootstrap";
+
+// Variables for Dark and Light Mode
+$navbar-background: #1c1c1c; // Dark grey for the navbar
+$background-color: #535252;  // Light grey for the body background
+$text-color: #e0e0e0;        // Light grey text color
+$button-background: #504f4f; // Button background
+$button-hover: #4a4a4a;      // Button hover effect
+$border-color: #444;         // Border color for containers, buttons, etc.
+
+// Global Styles for Dark and Light Mode
+body {
+  background-color: $background-color;
+  color: $text-color;
+  font-family: Arial, sans-serif;
+}
+
+a {
+  color: $text-color;
+  text-decoration: none;
+}
+
+a:hover {
+  color: lighten($text-color, 10%);
+}
+
+// Navbar Styling (Darkest Grey)
+.navbar-dark {
+  background-color: $navbar-background; // Dark grey navbar
+}
+
+.nav-link {
+  color: $text-color !important;
+  &:hover {
+    color: lighten($text-color, 20%);
+  }
+}
+
+// Containers, Cards, and Main Content
+.container {
+  background-color: $background-color; // Slightly darker grey for content containers
+  color: $text-color;
+  padding: 20px;
+  border-radius: 10px;
+  
+}
+
+// Buttons
+button, .btn {
+  background-color: $button-background;
+  color: $text-color;
+  border: 1px solid $border-color;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover, .btn:hover {
+  background-color: $button-hover;
+  color: lighten($text-color, 10%);
+}
+
+// Event Details and Attendees Section
+.event-details {
+  background-color: #3a3a3a; // Slightly lighter grey for event details
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.event-details h2, .event-details p {
+  color: $text-color;
+}
+
+.attendees-list {
+  background-color: #444; // Lighter grey for attendee list
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.attendees-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.attendees-list li {
+  color: $text-color;
+}
