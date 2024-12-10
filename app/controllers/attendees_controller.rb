@@ -32,9 +32,12 @@ class AttendeesController < ApplicationController
 
   # DELETE /events/:event_id/attendees/:id
   def destroy
+    @event = Event.find(params[:event_id])
+    @attendee = @event.attendees.find(params[:id])
     @attendee.destroy
-    redirect_to @event, notice: "Attendee was successfully deleted."
+    redirect_to event_path(@event), notice: "Attendee was successfully deleted."
   end
+
 
   private
 
