@@ -1,4 +1,5 @@
 class AttendeesController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [ :destroy ]
   before_action :set_event
   before_action :set_attendee, only: [ :edit, :update, :destroy ]
 
@@ -32,11 +33,14 @@ class AttendeesController < ApplicationController
 
   # DELETE /events/:event_id/attendees/:id
   def destroy
-    @event = Event.find(params[:event_id])
-    @attendee = @event.attendees.find(params[:id])
+    @attendee = Attendee.find(params[:id])
     @attendee.destroy
-    redirect_to event_path(@event), notice: "Attendee was successfully deleted."
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to event_path(params[:event_id]), notice: "Attendee deleted successfully." }
+    end
   end
+
 
 
   private
