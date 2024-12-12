@@ -15,27 +15,30 @@
   </div>
 
   <!-- Attendee Section -->
-  <div class="card shadow-lg mb-4">
-    <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
-      <h3>Attendees</h3>
-      <%= link_to 'New Attendee', new_event_attendee_path(@event), class: 'btn btn-light btn-sm' %>
-    </div>
-    <div class="card-body">
-      <% if @event.attendees.any? %>
-        <ul class="list-group">
-          <% @event.attendees.each do |attendee| %>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <%= attendee.name %> - <%= attendee.email %>
-              <div>
-                <%= link_to 'Edit', edit_event_attendee_path(@event, attendee), class: 'btn btn-sm btn-outline-primary me-2' %>
-                <%= link_to 'Delete', event_attendee_path(@event, attendee), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger' %>
-              </div>
-            </li>
-          <% end %>
-        </ul>
-      <% else %>
-        <p class="text-muted">No attendees yet. Be the first to register!</p>
-      <% end %>
-    </div>
+<div class="card shadow-lg mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+    <h3>Attendees</h3>
+    <%= link_to 'New Attendee', new_event_attendee_path(@event), class: 'btn btn-light btn-sm' %>
+  </div>
+  <div class="card-body">
+    <% if @event.attendees.any? %>
+      <ul class="list-group">
+        <% @event.attendees.each do |attendee| %>
+          <!-- Each attendee has a unique DOM ID -->
+          <li id="<%= dom_id(attendee) %>" class="list-group-item d-flex justify-content-between align-items-center">
+            <%= attendee.name %> - <%= attendee.email %>
+            <div>
+              <%= link_to 'Edit', edit_event_attendee_path(@event, attendee), class: 'btn btn-sm btn-outline-primary me-2' %>
+              <%= link_to 'Delete', event_attendee_path(@event, attendee), 
+                  method: :delete, 
+                  data: { confirm: 'Are you sure?' }, 
+                  class: 'btn btn-sm btn-outline-danger' %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted">No attendees yet. Be the first to register!</p>
+    <% end %>
   </div>
 </div>
