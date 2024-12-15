@@ -1,0 +1,25 @@
+<div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
+  <div class="card shadow-sm" style="width: 40rem;">
+    <div class="card-body d-flex flex-column">
+      <h3 class="card-title text-center mb-4">Login</h3>
+
+      <%= form_with url: login_path, local: true do |form| %>
+        <div class="mb-3">
+          <%= form.label :username, 'Username', class: 'form-label' %>
+          <%= form.text_field :username, class: 'form-control', required: true %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :password, 'Password', class: 'form-label' %>
+          <%= form.password_field :password, class: 'form-control', required: true %>
+        </div>
+
+        <!-- Add the buttons side by side at the bottom -->
+        <div class="d-flex justify-content-between mt-4">
+          <%= form.submit 'Login', class: 'btn btn-primary w-50' %>
+          <%= link_to 'Sign Up', signup_path, class: 'btn btn-secondary w-50' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

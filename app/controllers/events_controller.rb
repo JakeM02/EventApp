@@ -55,3 +55,9 @@ class EventsController < ApplicationController
     params.require(:event).permit(:title, :description, :date, :time, :location, :organizer)
   end
 end
+
+def require_login
+  unless logged_in?
+    redirect_to login_path, alert: "You must be logged in to access that page."
+  end
+end
