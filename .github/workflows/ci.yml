@@ -37,6 +37,12 @@ jobs:
         with:
           ruby-version: .ruby-version  # Ensure this matches your required Ruby version
 
+      - name: Check Ruby installation
+        run: |
+          which ruby
+          ruby -v
+        
+
       - name: Install dependencies
         run: |
           ruby -v  # Confirm Ruby version is correct
