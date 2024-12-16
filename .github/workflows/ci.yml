@@ -35,17 +35,11 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version  # Ensure this matches your required Ruby version
-
-      - name: Check Ruby installation
-        run: |
-          which ruby
-          ruby -v
-        
+          ruby-version: .ruby-version
 
       - name: Install dependencies
         run: |
-          ruby -v  # Confirm Ruby version is correct
+          ruby -v  # Confirm Ruby version
           bundle install
 
       - name: Fix permissions for bin/rails
