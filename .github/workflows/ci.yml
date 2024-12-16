@@ -33,13 +33,7 @@ jobs:
 
       - name: Install dependencies
         run: bundle install
-
-      - name: Prepare test database
-        run: |
-          bin/rails db:create
-          bin/rails db:migrate
-          bin/rails db:seed # Uncomment if you have seed data
-          
+        
       - name: Run RSpec tests
         run: bundle exec rspec
 
