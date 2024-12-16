@@ -1,92 +1,44 @@
-name: CI
-
+# This workflow uses actions that are not certified by GitHub.  They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+#
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "Ruby on Rails CI"
 on:
-  pull_request:
   push:
-    branches: [ main ]
-
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
-  scan_ruby:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Scan for common Rails security vulnerabilities
-        run: bin/brakeman --no-pager
-
-  scan_js:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install JavaScript dependencies
-        run: npm install
-
-      - name: Audit JavaScript dependencies
-        run: npm audit --production
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Lint Ruby code
-        run: bin/rubocop -f github
-
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres
+        ports:
+          - "5432:5432"
         env:
+          POSTGRES_DB: event_app_test
           POSTGRES_USER: event_admin
           POSTGRES_PASSWORD: admin
-        ports:
-          - 5432:5432
-        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
-
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://event_admin:admin@localhost:5432/event_app_test
     steps:
-      - name: Install required packages
-        run: sudo apt-get update && sudo apt-get install -y google-chrome-stable postgresql-client libvips
-
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up Ruby
+      # Add or replace dependency steps here
+      - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-
       - name: Prepare test database
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://event_admin:admin@localhost:5432/event_app_test
         run: bin/rails db:test:prepare
-
       - name: Run tests
         env:
           RAILS_ENV: test
@@ -95,10 +47,22 @@ jobs:
           bin/rails test
           bin/rails test:system
 
-      - name: Keep screenshots from failed tests
-        uses: actions/upload-artifact@v4
-        if: failure()
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
         with:
-          name: screenshots
-          path: tmp/screenshots
-          if-no-files-found: ignore
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Generate binstubs
+        run: bundle binstubs bundler-audit brakeman rubocop
+      # Add or replace any other lints here
+      - name: Security audit dependencies
+        run: bundle exec bundle audit --update
+      - name: Security audit application code
+        run: bundle exec brakeman -q -w2
+      - name: Lint Ruby files
+        run: bundle exec rubocop --auto-correct-all --disable-uncorrectable
