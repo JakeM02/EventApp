@@ -8,10 +8,10 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
     services:
       postgres:
-        image: postgres:17  # Updated to use PostgreSQL 17
+        image: postgres:17
         ports:
           - "5432:5432"
         env:
@@ -40,6 +40,9 @@ jobs:
       - name: Install dependencies
         run: bundle install
 
+      - name: Fix permissions for bin/rails
+        run: chmod +x bin/rails 
+
       - name: Wait for PostgreSQL to be ready
         run: |
           while ! pg_isready -h localhost -p 5432 -U event_admin; do
@@ -56,6 +59,7 @@ jobs:
 
       - name: Run RSpec tests
         run: bundle exec rspec
+
 
   lint:
     runs-on: ubuntu-latest
