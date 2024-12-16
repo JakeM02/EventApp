@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'rspec/core/runner'
+RSpec::Core::Runner.run(ARGV)

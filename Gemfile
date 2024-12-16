@@ -39,6 +39,7 @@ group :development, :test do
   gem "bundler-audit"
   gem "ruby_audit"
   gem "rubocop"
+  gem "rspec-rails"
 end
 
 
@@ -48,7 +49,8 @@ group :development do
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  gem "capybara" # For system/integration tests
+  gem "selenium-webdriver" # For browser-based tests
+  gem "factory_bot_rails" # For test data creation
+  gem "faker" # To generate test data
 end
