@@ -22,6 +22,23 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 
+# Configure Capybara
+Capybara.configure do |config|
+  config.default_driver = :rack_test # Default driver for tests without JavaScript
+  config.javascript_driver = :selenium_chrome # Driver for JavaScript-enabled tests
+  config.default_max_wait_time = 5 # Maximum wait time for asynchronous processes
+  config.app_host = 'http://localhost:3000' # Host for Capybara
+end
+
+# Register Selenium Chrome driver with options
+Capybara.register_driver :selenium_chrome do |app|
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    options: Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu window-size=1400,900])
+  )
+end
+
 # Configure RSpec
 RSpec.configure do |config|
   # Configure the fixture path for ActiveRecord
