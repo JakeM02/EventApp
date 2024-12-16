@@ -60,3 +60,6 @@ jobs:
 
       - name: Lint Ruby files
         run: bundle exec rubocop --auto-correct-all --disable-uncorrectable
+
+      - name: Run RSpec tests
+        run: bundle exec rspec
