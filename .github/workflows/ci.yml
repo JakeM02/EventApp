@@ -11,16 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:17
+        image: postgres:17  # Updated to use PostgreSQL 17
         ports:
           - "5432:5432"
         env:
           POSTGRES_DB: event_app_test
           POSTGRES_USER: event_admin
           POSTGRES_PASSWORD: admin
+        options: >-
+          --health-cmd="pg_isready -U event_admin"
+          --health-timeout=5s
+          --health-retries=5
+
     env:
       RAILS_ENV: test
       DATABASE_URL: postgres://event_admin:admin@localhost:5432/event_app_test
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,7 +39,21 @@ jobs:
 
       - name: Install dependencies
         run: bundle install
-        
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          while ! pg_isready -h localhost -p 5432 -U event_admin; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 1
+          done
+          echo "PostgreSQL is ready!"
+
+      - name: Prepare test database
+        run: |
+          bin/rails db:create RAILS_ENV=test
+          bin/rails db:migrate RAILS_ENV=test
+          bin/rails db:test:prepare
+
       - name: Run RSpec tests
         run: bundle exec rspec
 
@@ -60,5 +80,3 @@ jobs:
 
       - name: Lint Ruby files
         run: bundle exec rubocop --auto-correct-all --disable-uncorrectable
-
-        
