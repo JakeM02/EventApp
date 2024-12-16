@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Ensure this is ubuntu-latest (Linux environment)
+    runs-on: ubuntu-latest
 
     services:
       postgres:
@@ -35,16 +35,15 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version  
-          bundler-cache: true
+          ruby-version: .ruby-version  # Ensure this matches your required Ruby version
 
       - name: Install dependencies
         run: |
-          ruby -v  # Check Ruby version, ensure it's available
+          ruby -v  # Confirm Ruby version is correct
           bundle install
 
       - name: Fix permissions for bin/rails
-        run: chmod +x bin/rails  
+        run: chmod +x bin/rails  # Ensure executable permissions for bin/rails
 
       - name: Wait for PostgreSQL to be ready
         run: |
@@ -59,7 +58,6 @@ jobs:
           bundle exec bin/rails db:create RAILS_ENV=test
           bundle exec bin/rails db:migrate RAILS_ENV=test
           bundle exec bin/rails db:test:prepare
-        
 
       - name: Run RSpec tests
         run: bundle exec rspec
