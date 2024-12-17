@@ -60,10 +60,12 @@ jobs:
           bundle exec rails db:create db:migrate RAILS_ENV=test
           bundle exec rails db:test:prepare
 
-      - name: Debug database state
+      # Removed the problematic dbconsole step
+      # If you want to debug database state, you can run a specific query in the test
+      - name: Check database state (optional)
         run: |
-          echo "Listing test database tables..."
-          bundle exec rails dbconsole RAILS_ENV=test -c "\dt"
+          echo "Checking database state..."
+          bundle exec rails runner "puts ActiveRecord::Base.connection.tables"
 
       - name: Run RSpec tests
         run: bundle exec rspec
