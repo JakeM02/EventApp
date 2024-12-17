@@ -42,9 +42,6 @@ jobs:
           ruby -v  # Confirm Ruby version
           bundle install
 
-      - name: Fix permissions for bin/rails
-        run: chmod +x bin/rails  # Ensure executable permissions for bin/rails
-
       - name: Wait for PostgreSQL to be ready
         run: |
           while ! pg_isready -h localhost -p 5432 -U event_admin; do
