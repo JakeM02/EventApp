@@ -27,10 +27,14 @@ jobs:
     env:
       RAILS_ENV: test
       DATABASE_URL: postgres://event_admin:admin@localhost:5432/event_app_test
+      PGPASSWORD: admin
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Make bin/rails executable
+        run: chmod +x bin/rails 
 
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
@@ -52,16 +56,21 @@ jobs:
 
       - name: Prepare test database
         run: |
-          bundle exec bin/rails db:create RAILS_ENV=test
-          bundle exec bin/rails db:migrate RAILS_ENV=test
-          bundle exec bin/rails db:test:prepare
+          echo "Creating and migrating the test database..."
+          bundle exec rails db:create db:migrate RAILS_ENV=test
+          bundle exec rails db:test:prepare
+
+      - name: Debug database state
+        run: |
+          echo "Listing test database tables..."
+          bundle exec rails dbconsole RAILS_ENV=test -c "\dt"
 
       - name: Run RSpec tests
         run: bundle exec rspec
 
-
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
