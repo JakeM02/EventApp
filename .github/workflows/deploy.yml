@@ -2,13 +2,15 @@ name: Deploy to Heroku
 
 on:
   push:
-    branches: ["master"]
+    branches: 
+      - master
   pull_request:
-    branches: ["master"]
+    branches:
+      - master
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -31,12 +33,12 @@ jobs:
       - name: Authenticate with Heroku
         run: |
           echo "machine api.heroku.com" > ~/.netrc
-          echo "  login ${HEROKU_API_KEY}" >> ~/.netrc
-          echo "  password" >> ~/.netrc  
+          echo "  login ${HEROKU_EMAIL}" >> ~/.netrc  
+          echo "  password ${HEROKU_API_KEY}" >> ~/.netrc  
 
       - name: Set Heroku Git remote
         run: |
-          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git  
+          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
       - name: Deploy to Heroku
         run: |
