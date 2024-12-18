@@ -23,9 +23,10 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           echo "machine api.heroku.com" > ~/.netrc
-          echo "  login $HEROKU_API_KEY" >> ~/.netrc
+          echo "  password $HEROKU_API_KEY" >> ~/.netrc
           echo "machine git.heroku.com" >> ~/.netrc
-          echo "  login $HEROKU_API_KEY" >> ~/.netrc
+          echo "  password $HEROKU_API_KEY" >> ~/.netrc
+          chmod 600 ~/.netrc
 
       - name: Set Heroku Git remote
         run: |
@@ -36,7 +37,4 @@ jobs:
         run: git remote -v
 
       - name: Deploy to Heroku
-        env:
-          GIT_ASKPASS: /bin/true
-        run: |
-          git push heroku master
+        run: git push heroku master
