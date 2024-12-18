@@ -19,6 +19,6 @@ test:
 
 production:
   <<: *default
-  database: event_app_production
-  username: <%= ENV["EVENT_APP_DATABASE_USERNAME"] %>
-  password: <%= ENV["EVENT_APP_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  database: <%= ENV['DATABASE_URL'] ? URI.parse(ENV['DATABASE_URL']).path[1..-1] : 'event_app_production' %>
+
