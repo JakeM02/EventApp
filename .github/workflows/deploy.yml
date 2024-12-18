@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest  
 
     steps:
       - name: Checkout repository
@@ -16,12 +16,12 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.5' 
+          ruby-version: '3.3.5'  
 
       - name: Install dependencies
         run: |
           gem install bundler
-          bundle install  # Install the required gems using bundler
+          bundle install  
 
       - name: Install Heroku CLI
         run: |
@@ -29,7 +29,9 @@ jobs:
 
       - name: Authenticate with Heroku
         run: |
-          echo ${{ secrets.HEROKU_API_KEY }} > ~/.netrc  
+          echo "machine api.heroku.com" > ~/.netrc
+          echo "  login ${HEROKU_API_KEY}" >> ~/.netrc 
+  
 
       - name: Set Heroku Git remote
         run: |
