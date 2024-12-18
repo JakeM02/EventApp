@@ -3,25 +3,25 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - master  # This triggers the deployment when pushing to the master branch
+      - master  
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Run on the latest Ubuntu environment
+    runs-on: ubuntu-latest 
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2  # Checkout the code from your repository
+        uses: actions/checkout@v2  
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.5'  
+          ruby-version: '3.3.5' 
 
       - name: Install dependencies
         run: |
           gem install bundler
-          bundle install  
+          bundle install  # Install the required gems using bundler
 
       - name: Install Heroku CLI
         run: |
@@ -29,7 +29,7 @@ jobs:
 
       - name: Authenticate with Heroku
         run: |
-          echo ${{ secrets.HEROKU_API_KEY }} | heroku auth:token  
+          echo ${{ secrets.HEROKU_API_KEY }} > ~/.netrc  
 
       - name: Set Heroku Git remote
         run: |
