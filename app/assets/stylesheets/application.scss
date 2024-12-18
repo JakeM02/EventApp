@@ -14,6 +14,11 @@ $border-color: #444;         // Border color for containers, buttons, etc.
 // Global Styles for Dark and Light Mode
 body {
   background-color: $background-color;
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  height: 100vh;  /* Full viewport height */
   color: $text-color;
   font-family: Arial, sans-serif;
 }
