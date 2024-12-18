@@ -54,9 +54,6 @@ group :development do
 end
 
 group :test do
-  gem "capybara" # For system/integration tests
-  gem "selenium-webdriver" # For browser-based tests
   gem "factory_bot_rails" # For test data creation
-  gem "faker" # To generate test data
-  gem "rspec-rails", "~> 7.1.0"
+  gem "faker" # To generate test data 
 end
