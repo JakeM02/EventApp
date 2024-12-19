@@ -33,10 +33,10 @@ jobs:
           git remote remove heroku || true
           git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
-      - name: Fetch and merge changes from Heroku
+      - name: Pull changes from Heroku remote
         run: |
           git fetch heroku master
-          git merge heroku/master || true
+          git pull heroku master --no-edit || true
 
       - name: Deploy to Heroku
         run: git push heroku master
