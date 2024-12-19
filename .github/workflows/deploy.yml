@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 
 
       - name: Install Heroku CLI
         run: |
@@ -33,11 +35,8 @@ jobs:
           git remote remove heroku || true
           git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
-      - name: Pull changes from Heroku remote
-        run: |
-          git fetch heroku master
-          git pull heroku master --no-edit || true
+      - name: Debug Git Remote
+        run: git remote -v
 
       - name: Deploy to Heroku
         run: git push heroku master --force
-        
