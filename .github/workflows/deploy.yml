@@ -18,7 +18,7 @@ jobs:
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
 
-      - name: Configure authentication for Heroku
+      - name: Configure Heroku Authentication
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
@@ -29,6 +29,7 @@ jobs:
           echo "  login heroku" >> ~/.netrc
           echo "  password $HEROKU_API_KEY" >> ~/.netrc
           chmod 600 ~/.netrc
+          cat ~/.netrc  # Debugging step - Remove for production
 
       - name: Add Heroku Git Remote
         env:
@@ -36,11 +37,10 @@ jobs:
         run: |
           git remote remove heroku || true
           git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME.git
+          git remote -v  # Debugging step
 
-      - name: Debug Git Remote
-        run: git remote -v
+      - name: Debug Authentication
+        run: heroku auth:whoami
 
       - name: Push to Heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: git push heroku master
