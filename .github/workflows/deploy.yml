@@ -27,18 +27,16 @@ jobs:
           echo "machine git.heroku.com" >> ~/.netrc
           echo "  password $HEROKU_API_KEY" >> ~/.netrc
           chmod 600 ~/.netrc
-        
 
-      - name: Add Heroku Git Remote
-        env:
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      - name: Set Heroku Git remote
         run: |
           git remote remove heroku || true
-          git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME.git
-          git remote -v  # Debugging step
+          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
-      - name: Debug Authentication
-        run: heroku auth:whoami
+      - name: Fetch and merge changes from Heroku
+        run: |
+          git fetch heroku master
+          git merge heroku/master || true
 
-      - name: Push to Heroku
+      - name: Deploy to Heroku
         run: git push heroku master
