@@ -35,8 +35,5 @@ jobs:
           git remote remove heroku || true
           git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
-      - name: Debug Git Remote
-        run: git remote -v
-
       - name: Deploy to Heroku
         run: git push heroku master --force

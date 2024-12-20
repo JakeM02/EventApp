@@ -1,6 +1,5 @@
 // app/assets/stylesheets/application.scss
 
-// Import Bootstrap first
 @import "bootstrap";
 
 // Variables for Dark and Light Mode
@@ -9,7 +8,7 @@ $background-color: #535252;  // Light grey for the body background
 $text-color: #e0e0e0;        // Light grey text color
 $button-background: #504f4f; // Button background
 $button-hover: #4a4a4a;      // Button hover effect
-$border-color: #444;         // Border color for containers, buttons, etc.
+$border-color: #444;         // Border color 
 
 // Global Styles for Dark and Light Mode
 body {
