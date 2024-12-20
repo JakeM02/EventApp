@@ -3,7 +3,7 @@
     <div class="card-body d-flex flex-column">
       <h3 class="card-title text-center mb-4">Sign Up</h3>
 
-      <%= form_with model: @user, url: signup_path, local: true do |form| %> <!-- Change to use signup_path -->
+      <%= form_with model: @user, url: signup_path, local: true do |form| %> 
         <div class="mb-3">
           <%= form.label :username, 'Username', class: 'form-label' %>
           <%= form.text_field :username, class: 'form-control', required: true %>

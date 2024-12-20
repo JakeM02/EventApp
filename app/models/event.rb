@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   has_many :attendees, dependent: :destroy
 
-  # Validations (if any)
+  # Validations
   validates :title, presence: true
   validates :date, presence: true
   validates :location, presence: true
