@@ -42,7 +42,7 @@ group :development, :test do
   gem "bundler-audit"
   gem "ruby_audit"
   gem "rubocop"
-  gem "rspec-rails", "~> 7.1.0"
+  gem "rspec-rails", "~> 7.1.1"
   gem "capybara" # For system/integration tests
   gem "selenium-webdriver" # For browser-based tests
 end
